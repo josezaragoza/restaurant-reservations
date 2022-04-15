@@ -1,89 +1,72 @@
 import React, { useEffect, useState } from "react";
-import {
-  listReservations,
-  cancelReservation,
-} from "../utils/api";
+import { Link } from "react-router-dom";
+import { listReservations } from "../utils/api";
+import { previous, next, today } from "../utils/date-time";
 import ErrorAlert from "../layout/ErrorAlert";
-import { useHistory } from "react-router-dom";
-import { previous, next } from "../utils/date-time";
 import ReservationList from "../reservations/ReservationList";
+import useQuery from "../utils/useQuery";
+
+/**
+ * Defines the dashboard page.
+ * @param date
+ *  the date for which the user wants to view reservations.
+ * @returns {JSX.Element}
+ */
 
 function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
-  // const [tables, setTables] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
-  // const [tablesError, setTablesError] = useState(null);
-  const history = useHistory();
+  const query = useQuery();
+  const dateQuery = query.get("date");
 
-  function loadDashboard() {
+  if (dateQuery) date = dateQuery;
+
+  // loads reservations
+  useEffect(() => {
     const abortController = new AbortController();
-    setReservationsError(null);
-    listReservations({ date }, abortController.signal)
-      .then(setReservations)
-      .catch(setReservationsError);
-    return () => abortController.abort();
-  }
 
-  // const finishHandler = (table_id) => {
-  //   const abortController = new AbortController();
-  //   async function freeTable() {
-  //     try {
-  //       await finishReservation(table_id, abortController.signal);
-  //     } catch (error) {
-  //       setTablesError(error);
-  //     }
-  //   }
-  //   freeTable().then(loadDashboard);
-  //   return () => abortController.abort();
-  // };
-
-  const cancelHandler = (reservation_id) => {
-    const abortController = new AbortController();
-    async function cancel() {
+    async function loadReservations() {
+      setReservationsError(null);
       try {
-        await cancelReservation(reservation_id, abortController.signal);
+        const data = await listReservations({ date }, abortController.signal);
+        setReservations(data);
       } catch (error) {
         setReservationsError(error);
       }
     }
-    cancel().then(loadDashboard);
+    loadReservations();
     return () => abortController.abort();
-  };
+  }, [date]);
 
-  useEffect(loadDashboard, [date]);
+  const bookedAndSeated = reservations.filter(
+    (reservation) => reservation.status !== "finished"
+  );
 
   return (
     <main>
-      <h2>Dashboard</h2>
+      <h1>Dashboard</h1>
       <div className="d-md-flex mb-3">
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => history.push(`/dashboard?date=${previous(date)}`)}
-        >
-          Previous
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => history.push("/dashboard")}
-        >
-          Today
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => history.push(`/dashboard?date=${next(date)}`)}
-        >
-          Next
-        </button>
-        <h4 className="mb-0">Reservations for: {date}</h4>
+        <h4 className="mb-0">Reservations for {date}</h4>
       </div>
+      <div>
+        <Link to={`/dashboard?date=${previous(date)}`} className="btn btn-dark">
+          Previous
+        </Link>{" "}
+        &nbsp;
+        <Link to={`/dashboard?date=${today()}`} className="btn btn-success">
+          Today
+        </Link>
+        &nbsp;
+        <Link to={`/dashboard?date=${next(date)}`} className="btn btn-dark">
+          Next
+        </Link>{" "}
+      </div>
+      <br />
+      <div>
+        <ReservationList reservations={bookedAndSeated} />
+      </div>
+
       <ErrorAlert error={reservationsError} />
-      <ReservationList
-        reservations={reservations}
-        cancelHandler={cancelHandler}
-      />
     </main>
   );
 }

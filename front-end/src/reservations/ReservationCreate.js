@@ -1,13 +1,15 @@
-import React, { useState } from "react";
-import ErrorAlert from "../layout/ErrorAlert";
-import { createReservation } from "../utils/api";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import ReservationsForm from "./ReservationForm";
+import { createReservation } from "../utils/api";
+import ReservationForm from "./ReservationForm";
 
-export default function CreateReservations() {
+// Defines the 'New Reservation' page
+
+function ReservationNew() {
   const history = useHistory();
+  const [error, setError] = useState("");
 
-  const initialForm = {
+  const initialState = {
     first_name: "",
     last_name: "",
     mobile_number: "",
@@ -15,52 +17,52 @@ export default function CreateReservations() {
     reservation_time: "",
     people: "",
   };
-
-  const [formData, setFormData] = useState({ ...initialForm });
-  const [reservationsError, setReservationsError] = useState(null);
-
-  const changeHandler = ({ target }) => {
-    let value = target.value;
-    if (target.name === "people") {
-      value = Number(value);
-    }
-    setFormData({
-      ...formData,
-      [target.name]: value,
-    });
-  };
-
-  const submitHandler = (event) => {
+  const [formData, setFormData] = useState({ ...initialState });
+  // Submit click handler
+  // upon submitting, create new reservation
+  async function submitHandler(event) {
     event.preventDefault();
     const abortController = new AbortController();
-    async function addReservation() {
-      try {
-        await createReservation({ data: formData }, abortController.signal);
-        history.push(`/dashboard?date=${formData.reservation_date}`);
-      } catch (error) {
-        setReservationsError(error);
-      }
+    const formattedTime = formatTime();
+
+    try {
+      formData.reservation_time = formattedTime;
+      formData.people = Number(formData.people);
+      await createReservation(formData, abortController.signal);
+    } catch (error) {
+      setError(error);
+      return;
     }
-    addReservation();
+
+    history.push(`/dashboard?date=${formData.reservation_date}`);
     return () => abortController.abort();
-  };
+  }
+
+  function formatTime() {
+    let cleanTime = formData.reservation_time
+      .replace(/[\s:]/g, "")
+      .toLowerCase();
+    if (cleanTime.includes("pm")) {
+      cleanTime = Number(cleanTime.slice(0, 4)) + 1200;
+      cleanTime = String(cleanTime);
+    }
+    return `${cleanTime.slice(0, 2)}:${cleanTime.slice(2, 4)}`;
+  }
 
   return (
-    <>
-      <h1>Create Reservation</h1>
-      <ErrorAlert error={reservationsError} />
-      <ReservationsForm changeHandler={changeHandler} formData={formData} />
-      <button className="btn btn-secondary mr-2" onClick={history.goBack}>
-        Cancel
-      </button>
-      <button
-        form="reservationCard"
-        type="submit"
-        className="btn btn-primary"
-        onClick={submitHandler}
-      >
-        Submit
-      </button>
-    </>
+    <div>
+      <div className="headingBar d-md-flex my-3 p-2">
+        <h1>New Reservation</h1>
+      </div>
+      <hr></hr>
+      <ReservationForm
+        formData={formData}
+        setFormData={setFormData}
+        submitHandler={submitHandler}
+        error={error}
+      />
+    </div>
   );
 }
+
+export default ReservationNew;

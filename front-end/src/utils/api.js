@@ -5,8 +5,12 @@
 import formatReservationDate from "./format-reservation-date";
 import formatReservationTime from "./format-reservation-date";
 
+// const API_BASE_URL = "https://dileit-reservation-start-backend.vercel.app";
+
 const API_BASE_URL =
   process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
+
+// const API_BASE_URL = "http://localhost:5000";
 
 /**
  * Defines the default headers for these functions to work with `json-server`
@@ -20,7 +24,7 @@ headers.append("Content-Type", "application/json");
  * This function is NOT exported because it is not needed outside of this file.
  *
  * @param url
- *  the url for the requst.
+ *  the url for the request.
  * @param options
  *  any options for fetch
  * @param onCancel
@@ -59,6 +63,7 @@ async function fetchJson(url, options, onCancel) {
  */
 
 export async function listReservations(params, signal) {
+  // const url = new URL(`${API_BASE_URL}/reservations`);
   const url = new URL(`${API_BASE_URL}/reservations`);
   Object.entries(params).forEach(([key, value]) =>
     url.searchParams.append(key, value.toString())
@@ -67,64 +72,78 @@ export async function listReservations(params, signal) {
     .then(formatReservationDate)
     .then(formatReservationTime);
 }
-//Helper functions for handling reservations
+
+/**
+ * Retrieves the reservation with the specified `reservation_id`
+ * @param reservation_id
+ *  the `reservation_id` property matching the desired reservation.
+ * @param signal
+ *  optional AbortController.signal
+ * @returns {Promise<Error|*>}
+ *  a promise that resolves to a possible error, if the reservation does not exists.
+ */
+export async function readReservation(reservation_id, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservation_id}`;
+  return await fetchJson(url, { signal }, {}).then(formatReservationDate);
+}
+
+/**
+ * Updates an existing reservation
+ * @param updatedReservation
+ *  the reservation to save, which must have a `reservation_id` property.
+ * @param signal
+ *  optional AbortController.signal
+ * @returns {Promise<Error|*>}
+ *  a promise that resolves to the updated reservation.
+ */
+export async function updateReservation(updatedReservation, signal) {
+  const url = `${API_BASE_URL}/reservations/${updatedReservation.reservation_id}`;
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: updatedReservation }),
+    signal,
+  };
+  return await fetchJson(url, options, updatedReservation);
+}
+
+/**
+ * Updates the status of an existing reservation
+ * @param updatedReservation
+ *  the reservation to save, which must have a `status` property.
+ * @param signal
+ *  optional AbortController.signal
+ * @returns {Promise<Error|*>}
+ *  a promise that resolves to the updated status of a reservation.
+ */
+export async function updateReservationStatus(updatedReservation, signal) {
+  const url = `${API_BASE_URL}/reservations/${updatedReservation.reservation_id}/status`;
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: updatedReservation }),
+    signal,
+  };
+  return await fetchJson(url, options, updatedReservation);
+}
+
+/**
+ * Saves reservation to the database.
+ * @param reservation
+ *  the reservation to save, which must not have an `reservation_id` property
+ *  must have first_name, last_name", mobile_number, reservation_date, reservation_time and people properties
+ * @param signal
+ *  optional AbortController.signal
+ * @returns {Promise<reservation>}
+ *  a promise that resolves the saved reservation, which will now have a `reservation_id` and `status` property. `status` will have a default value "booked".
+ */
 export async function createReservation(reservation, signal) {
   const url = `${API_BASE_URL}/reservations`;
   const options = {
     method: "POST",
     headers,
-    body: JSON.stringify(reservation),
+    body: JSON.stringify({ data: reservation }),
     signal,
   };
-  return await fetchJson(url, options, {});
-}
-
-export async function updateReservation(data, signal) {
-  const url = new URL(
-    `${API_BASE_URL}/reservations/${data.data.reservation_id}`
-  );
-
-  const options = {
-    method: "PUT",
-    headers,
-    body: JSON.stringify(data),
-    signal,
-  };
-
-  return await fetchJson(url, options, {});
-}
-
-export async function readReservation({ reservation_id }, signal) {
-  const url = new URL(`${API_BASE_URL}/reservations/${reservation_id}`);
-
-  return await fetchJson(url, { headers, signal }, [])
-    .then(formatReservationDate)
-    .then(formatReservationTime);
-}
-
-export async function finishReservation(table_id, signal) {
-  const url = new URL(`${API_BASE_URL}/tables/${table_id}/seat`);
-
-  const options = {
-    method: "DELETE",
-    headers,
-    signal,
-  };
-
-  return await fetchJson(url, options, {});
-}
-
-export async function cancelReservation(reservation_id, signal) {
-  const url = new URL(`${API_BASE_URL}/reservations/${reservation_id}/status`);
-
-  const data = { data: { status: "cancelled" } };
-
-  const options = {
-    method: "PUT",
-    headers,
-    body: JSON.stringify(data),
-    signal,
-  };
-
   return await fetchJson(url, options, {});
 }

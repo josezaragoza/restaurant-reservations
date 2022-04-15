@@ -1,28 +1,20 @@
 const knex = require("../db/connection");
 
-const tableName = "reservations";
+function list() {
+  return knex("reservations").select("*").orderBy("reservation_date");
+}
 
-function list(date) {
-  return knex(tableName)
+function listByDate(date) {
+  return knex("reservations")
     .select("*")
     .where({ reservation_date: date })
-    .whereNot({ status: "finished" })
+    .whereNot("status", "finished")
     .orderBy("reservation_time");
 }
 
-function read(reservation_id) {
-  return knex(tableName).where({ reservation_id }).first();
-}
-
-function create(reservation) {
-  return knex(tableName)
-    .insert(reservation)
-    .returning("*")
-    .then((created) => created[0]);
-}
-
-function search(mobile_number) {
-  return knex(tableName)
+function listByMobileNumber(mobile_number) {
+  return knex("reservations")
+    .select("*")
     .whereRaw(
       "translate(mobile_number, '() -', '') like ?",
       `%${mobile_number.replace(/\D/g, "")}%`
@@ -30,23 +22,35 @@ function search(mobile_number) {
     .orderBy("reservation_date");
 }
 
-function update(reservation) {
-  return knex(tableName)
-    .where({ reservation_id: reservation.reservation_id })
-    .update(reservation, "*");
+function create(reservation) {
+  return knex("reservations")
+    .insert(reservation)
+    .returning("*")
+    .then((createdRecords) => createdRecords[0]);
 }
 
-function changeStatus(reservation) {
-  return knex(tableName)
-    .where({ reservation_id: reservation.reservation_id })
-    .update({ status: reservation.status }, "*");
+function read(reservation_id) {
+  return knex("reservations").select("*").where({ reservation_id }).first();
+}
+
+function update(updatedReservation) {
+  return knex("reservations")
+    .select("*")
+    .where({ reservation_id: updatedReservation.reservation_id })
+    .update(updatedReservation, "*")
+    .then((updatedRecords) => updatedRecords[0]);
+}
+
+function destroy(reservation_id) {
+  return knex("reservations").where({ reservation_id }).del();
 }
 
 module.exports = {
-  create,
   list,
+  listByDate,
+  listByMobileNumber,
+  create,
   read,
   update,
-  changeStatus,
-  search,
+  delete: destroy,
 };
