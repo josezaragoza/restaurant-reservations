@@ -5,7 +5,7 @@ import ReservationForm from "./ReservationForm";
 
 // Defines the 'New Reservation' page
 
-function ReservationNew() {
+function ReservationCreate() {
   const history = useHistory();
   const [error, setError] = useState("");
 
@@ -65,4 +65,4 @@ function ReservationNew() {
   );
 }
 
-export default ReservationNew;
+export default ReservationCreate;
