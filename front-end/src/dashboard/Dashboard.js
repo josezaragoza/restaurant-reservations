@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { listReservations } from "../utils/api";
+import { previous, next, today } from "../utils/date-time";
 import ErrorAlert from "../layout/ErrorAlert";
+import ReservationList from "../reservations/ReservationList";
+import useQuery from "../utils/useQuery";
 
 /**
  * Defines the dashboard page.
@@ -8,29 +12,61 @@ import ErrorAlert from "../layout/ErrorAlert";
  *  the date for which the user wants to view reservations.
  * @returns {JSX.Element}
  */
+
 function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
+  const query = useQuery();
+  const dateQuery = query.get("date");
 
-  useEffect(loadDashboard, [date]);
+  if (dateQuery) date = dateQuery;
 
-  function loadDashboard() {
+  // loads reservations
+  useEffect(() => {
     const abortController = new AbortController();
-    setReservationsError(null);
-    listReservations({ date }, abortController.signal)
-      .then(setReservations)
-      .catch(setReservationsError);
+
+    async function loadReservations() {
+      setReservationsError(null);
+      try {
+        const data = await listReservations({ date }, abortController.signal);
+        setReservations(data);
+      } catch (error) {
+        setReservationsError(error);
+      }
+    }
+    loadReservations();
     return () => abortController.abort();
-  }
+  }, [date]);
+
+  const bookedAndSeated = reservations.filter(
+    (reservation) => reservation.status !== "finished"
+  );
 
   return (
     <main>
       <h1>Dashboard</h1>
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for date</h4>
+        <h4 className="mb-0">Reservations for {date}</h4>
       </div>
+      <div>
+        <Link to={`/dashboard?date=${previous(date)}`} className="btn btn-dark">
+          Previous
+        </Link>{" "}
+        &nbsp;
+        <Link to={`/dashboard?date=${today()}`} className="btn btn-success">
+          Today
+        </Link>
+        &nbsp;
+        <Link to={`/dashboard?date=${next(date)}`} className="btn btn-dark">
+          Next
+        </Link>{" "}
+      </div>
+      <br />
+      <div>
+        <ReservationList reservations={bookedAndSeated} />
+      </div>
+
       <ErrorAlert error={reservationsError} />
-      {JSON.stringify(reservations)}
     </main>
   );
 }
