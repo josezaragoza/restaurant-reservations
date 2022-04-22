@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { listReservations } from "../utils/api";
+import { listTables, listReservations } from "../utils/api";
 import { previous, next, today } from "../utils/date-time";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationList from "../reservations/ReservationList";
+import TablesList from "../tables/TablesList"
 import useQuery from "../utils/useQuery";
 
 /**
@@ -16,6 +17,8 @@ import useQuery from "../utils/useQuery";
 function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
+  const [tables, setTables] = useState([]);
+  const [tablesError, setTablesError] = useState(null);
   const query = useQuery();
   const dateQuery = query.get("date");
 
@@ -37,6 +40,24 @@ function Dashboard({ date }) {
     loadReservations();
     return () => abortController.abort();
   }, [date]);
+
+  	useEffect(() => {
+      const abortController = new AbortController();
+
+      async function loadTables() {
+        setReservationsError(null);
+        try {
+          const data = await listTables(abortController.signal);
+          setTables(data);
+        } catch (error) {
+          setTablesError(error);
+        }
+      }
+
+      loadTables();
+
+      return () => abortController.abort();
+    }, []);
 
   const bookedAndSeated = reservations.filter(
     (reservation) => reservation.status !== "finished"
@@ -65,8 +86,12 @@ function Dashboard({ date }) {
       <div>
         <ReservationList reservations={bookedAndSeated} />
       </div>
-
+      <h4 className="mb-0">Tables:</h4> <br />
+      <div>
+        <TablesList tables={tables} />
+      </div>
       <ErrorAlert error={reservationsError} />
+      <ErrorAlert error={tablesError} />
     </main>
   );
 }
