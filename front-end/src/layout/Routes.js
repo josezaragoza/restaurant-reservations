@@ -6,14 +6,11 @@ import NotFound from "./NotFound";
 import { today } from "../utils/date-time";
 import ReservationCreate from "../reservations/ReservationCreate";
 import TablesForm from "../tables/TablesForm";
+import ReservationSeat from "../reservations/ReservationSeat";
+import ReservationEdit from "../reservations/ReservationEdit";
 
-/**
- * Defines all the routes for the application.
- *
- * You will need to make changes to this file.
- *
- * @returns {JSX.Element}
- */
+
+
 function Routes() {
   return (
     <Switch>
@@ -26,11 +23,17 @@ function Routes() {
       <Route path="/dashboard">
         <Dashboard date={today()} />
       </Route>
+      <Route path="/reservations/:reservation_id/seat">
+        <ReservationSeat />
+      </Route>
       <Route path="/reservations/new">
         <ReservationCreate />
       </Route>
+      <Route path="/reservations/:reservation_id/edit">
+        <ReservationEdit />
+      </Route>
       <Route path="/tables/new">
-        <TablesForm />
+        <TablesForm date={today()}/>
       </Route>
       <Route>
         <NotFound />
