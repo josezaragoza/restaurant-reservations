@@ -8,6 +8,7 @@ import ReservationCreate from "../reservations/ReservationCreate";
 import TablesForm from "../tables/TablesForm";
 import ReservationSeat from "../reservations/ReservationSeat";
 import ReservationEdit from "../reservations/ReservationEdit";
+import Search from "../search/Search";
 
 
 
@@ -22,6 +23,9 @@ function Routes() {
       </Route>
       <Route path="/dashboard">
         <Dashboard date={today()} />
+      </Route>
+      <Route path="/search">
+        <Search />
       </Route>
       <Route path="/reservations/:reservation_id/seat">
         <ReservationSeat />
