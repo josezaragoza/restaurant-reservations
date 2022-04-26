@@ -8,6 +8,7 @@ import TablesList from "../tables/TablesList"
 import useQuery from "../utils/useQuery";
 
 
+
 /**
  * Defines the dashboard page.
  * @param date
@@ -96,7 +97,7 @@ function Dashboard({ date }) {
       </div>
       <ErrorAlert error={reservationsError} />
       <ErrorAlert error={tablesError} />
-    </main>
+        </main>
   );
 }
 

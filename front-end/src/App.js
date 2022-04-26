@@ -9,13 +9,13 @@ import seating from "./images/seating.jpg";
  */
 function App() {
   return (
-    <div
+    <div className=""
       style={{
         backgroundImage: `url(${seating})`,
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
-        height: "1100px",
+        height: "100%",
       }}
     >
       <Switch>
