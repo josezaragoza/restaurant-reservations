@@ -46,37 +46,43 @@ function Search() {
 
   return (
     <main>
-      <h1>Search</h1>
+      <h1 className="text-light">Search</h1>
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Search for a reservation by mobile number:</h4>
+        <h4 className="mb-0 text-light">Search for a reservation by mobile number:</h4>
       </div>
       <div>
-        <form onSubmit={handleSubmit}>
-          <input
-            id="mobile_number"
-            type="text"
-            name="mobile_number"
-            onChange={handleChange}
-            style={{ width: "200px" }}
-            placeholder="Enter a phone number"
-            required
-          />{" "}
+        <form onSubmit={handleSubmit} className="d-md-flex">
+          <div>
+            <input
+              id="mobile_number"
+              type="text"
+              name="mobile_number"
+              onChange={handleChange}
+              style={{ width: "200px", height:"35px" }}
+              required
+            />{" "}
+            <br />
+            <small className="form-text text-light"> Enter A Phone Number </small>
+          </div>{" "}
           &nbsp; &nbsp;
-          <button type="submit" className="btn btn-success">
-            Find
-          </button>
-          <button
-            type="button"
-            className="btn btn-dark mx-3"
-            onClick={cancelHandler}
-          >
-            Cancel
-          </button>
+          <div>
+            <button type="submit" style={{width: "70px"}} className="btn btn-success">
+              Find
+            </button>
+            <button
+              type="button"
+              className="btn btn-danger mx-3"
+              onClick={cancelHandler}
+            >
+              Cancel
+            </button>
+          </div>
         </form>
-      </div> <br />
+      </div>{" "}
+      <br />
       {reservations.length < 1 ? (
         <div className="d-md-flex mb-3">
-          <h4 className="my-3">No reservations found</h4>
+          <h4 className="my-3 alert alert-danger w-50">No reservations found</h4>
         </div>
       ) : (
         <div>

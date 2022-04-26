@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import Layout from "./layout/Layout";
+import seating from "./images/seating.jpg";
 
 /**
  * Defines the root application component.
@@ -8,11 +9,21 @@ import Layout from "./layout/Layout";
  */
 function App() {
   return (
-    <Switch>
-      <Route path="/">
-        <Layout />
-      </Route>
-    </Switch>
+    <div
+      style={{
+        backgroundImage: `url(${seating})`,
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        height: "1100px",
+      }}
+    >
+      <Switch>
+        <Route path="/">
+          <Layout />
+        </Route>
+      </Switch>
+    </div>
   );
 }
 

@@ -7,6 +7,7 @@ import ReservationList from "../reservations/ReservationList";
 import TablesList from "../tables/TablesList"
 import useQuery from "../utils/useQuery";
 
+
 /**
  * Defines the dashboard page.
  * @param date
@@ -65,28 +66,31 @@ function Dashboard({ date }) {
 
   return (
     <main>
-      <h1>Dashboard</h1>
+      <h1 className="text-light">Dashboard</h1>
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for {date}</h4>
+        <h4 className="mb-0 text-light">Reservations for {date}</h4>
       </div>
       <div>
-        <Link to={`/dashboard?date=${previous(date)}`} className="btn btn-dark">
-          Previous
+        <Link
+          to={`/dashboard?date=${previous(date)}`}
+          className="btn btn-light"
+        >
+          <i class="bi bi-caret-left-fill"></i> Previous
         </Link>{" "}
         &nbsp;
         <Link to={`/dashboard?date=${today()}`} className="btn btn-success">
           Today
         </Link>
-        &nbsp;
-        <Link to={`/dashboard?date=${next(date)}`} className="btn btn-dark">
-          Next
+        &nbsp;&nbsp;
+        <Link to={`/dashboard?date=${next(date)}`} className="btn btn-light">
+          Next <i class="bi bi-caret-right-fill"></i>
         </Link>{" "}
       </div>
       <br />
       <div>
         <ReservationList reservations={bookedAndSeated} />
       </div>
-      <h4 className="mb-0">Tables:</h4> <br />
+      <h4 className="mb-0 text-light">Tables:</h4> <br />
       <div>
         <TablesList tables={tables} />
       </div>

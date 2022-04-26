@@ -52,7 +52,7 @@ function ReservationCreate() {
   return (
     <div>
       <div className="headingBar d-md-flex my-3 p-2">
-        <h1>New Reservation</h1>
+        <h1 className="text-light">New Reservation</h1>
       </div>
       <hr></hr>
       <ReservationForm

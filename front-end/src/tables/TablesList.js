@@ -8,7 +8,7 @@ const TablesList = ({ tables = [] }) => {
       <div className="row">
         {tables.map((table) => (
           <div className="col-sm-6" key={table.table_id}>
-            <div className="card text-white bg-dark mb-3">
+            <div className="card text-black mb-3">
               <div className="card-body">
                 <h5 className="card-title">{table.table_name}</h5>
                 <p className="card-text">
