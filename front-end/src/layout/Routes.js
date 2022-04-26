@@ -12,37 +12,38 @@ import Search from "../search/Search";
 
 
 
+
 function Routes() {
   return (
-    <Switch>
-      <Route exact={true} path="/">
-        <Redirect to={"/dashboard"} />
-      </Route>
-      <Route exact={true} path="/reservations">
-        <Redirect to={"/dashboard"} />
-      </Route>
-      <Route path="/dashboard">
-        <Dashboard date={today()} />
-      </Route>
-      <Route path="/search">
-        <Search />
-      </Route>
-      <Route path="/reservations/:reservation_id/seat">
-        <ReservationSeat />
-      </Route>
-      <Route path="/reservations/new">
-        <ReservationCreate />
-      </Route>
-      <Route path="/reservations/:reservation_id/edit">
-        <ReservationEdit />
-      </Route>
-      <Route path="/tables/new">
-        <TablesForm date={today()}/>
-      </Route>
-      <Route>
-        <NotFound />
-      </Route>
-    </Switch>
+      <Switch>
+        <Route exact={true} path="/">
+          <Redirect to={"/dashboard"} />
+        </Route>
+        <Route exact={true} path="/reservations">
+          <Redirect to={"/dashboard"} />
+        </Route>
+        <Route path="/dashboard">
+          <Dashboard date={today()} />
+        </Route>
+        <Route path="/search">
+          <Search />
+        </Route>
+        <Route path="/reservations/:reservation_id/seat">
+          <ReservationSeat />
+        </Route>
+        <Route path="/reservations/new">
+          <ReservationCreate />
+        </Route>
+        <Route path="/reservations/:reservation_id/edit">
+          <ReservationEdit />
+        </Route>
+        <Route path="/tables/new">
+          <TablesForm date={today()} />
+        </Route>
+        <Route>
+          <NotFound />
+        </Route>
+      </Switch>
   );
 }
 

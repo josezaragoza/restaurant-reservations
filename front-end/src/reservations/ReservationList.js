@@ -3,8 +3,8 @@ import ReservationCancel from "./ReservationCancel";
 
 const ReservationList = ({ reservations = [] }) => {
   const list = reservations.map((reservation) => (
-    <div className="col-sm-5" key={reservation.reservation_id}>
-      <div className="card text-black alert-success mb-3">
+    <div className="col-sm-6" key={reservation.reservation_id}>
+      <div className="card alert-success mb-3" style={{ width: "20rem" }}>
         <div className="card-header">
           <h4>
             {reservation.first_name} {reservation.last_name}
@@ -23,7 +23,7 @@ const ReservationList = ({ reservations = [] }) => {
           </div>{" "}
           <br /> <br />
           {reservation.status === "booked" ? (
-            <div>
+            <div className="d-flex flex-wrap">
               <Link
                 to={`/reservations/${reservation.reservation_id}/seat`}
                 className="btn btn-success"
