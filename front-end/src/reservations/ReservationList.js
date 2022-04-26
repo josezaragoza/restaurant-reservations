@@ -3,8 +3,8 @@ import ReservationCancel from "./ReservationCancel";
 
 const ReservationList = ({ reservations = [] }) => {
   const list = reservations.map((reservation) => (
-    <div className="col-sm-6" key={reservation.reservation_id}>
-      <div className="card text-white bg-dark mb-3">
+    <div className="col-sm-5" key={reservation.reservation_id}>
+      <div className="card text-black alert-success mb-3">
         <div className="card-header">
           <h4>
             {reservation.first_name} {reservation.last_name}
@@ -28,16 +28,16 @@ const ReservationList = ({ reservations = [] }) => {
                 to={`/reservations/${reservation.reservation_id}/seat`}
                 className="btn btn-success"
               >
-                Seat
+                Seat <i class="bi bi-check-lg"></i>
               </Link>{" "}
               &nbsp;
               <Link
                 to={`/reservations/${reservation.reservation_id}/edit`}
                 className="btn btn-warning"
               >
-                Edit
+                Edit <i class="bi bi-pencil"></i>
               </Link>{" "}
-              {/* &nbsp; */}
+              &nbsp;
               <ReservationCancel reservation={reservation} />
             </div>
           ) : (
@@ -52,7 +52,7 @@ const ReservationList = ({ reservations = [] }) => {
     return <div className="row">{list}</div>;
   } else {
     return (
-      <div className="alert alert-success" role="alert">
+      <div className="alert alert-warning" role="alert">
         No matching reservations found.
       </div>
     );

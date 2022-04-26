@@ -53,12 +53,12 @@ function TablesForm() {
 
   return (
     <main>
-      <h1>Tables</h1>
+      <h1 className="text-light">Tables</h1>
 
       <form onSubmit={handleSubmit} className="form-group">
         <div className="row mb-3">
           <div className="col-4 form-group">
-            <label className="form-label" htmlFor="table_name">
+            <label className="form-label text-light" htmlFor="table_name">
               {" "}
               Table Name{" "}
             </label>
@@ -71,10 +71,10 @@ function TablesForm() {
               onChange={handleChange}
               value={formData.table_name}
             />
-            <small className="form-text text-muted"> Enter Table Name </small>
+            <small className="form-text text-light"> Enter Table Name </small>
           </div>
           <div className="col-4 form-group">
-            <label className="form-label" htmlFor="capacity">
+            <label className="form-label text-light" htmlFor="capacity">
               {" "}
               Table Capacity{" "}
             </label>
@@ -87,27 +87,27 @@ function TablesForm() {
               onChange={handleChange}
               value={formData.capacity}
             />
-            <small className="form-text text-muted">
+            <small className="form-text text-light">
               {" "}
               Enter Table Capacity{" "}
             </small>
           </div>
         </div>
         <button
-          type="button"
-          onClick={cancelHandler}
-          className="btn btn-secondary"
-        >
-          Cancel
-        </button>{" "}
-        &nbsp;
-        <button
           type="submit"
-          className="btn btn-primary"
+          className="btn btn-success"
           disabled={formData.table_name.length < 2}
         >
           Submit
         </button>
+        &nbsp;&nbsp;&nbsp;
+        <button
+          type="button"
+          onClick={cancelHandler}
+          className="btn btn-danger"
+        >
+          Cancel
+        </button>{" "}
       </form>
     </main>
   );

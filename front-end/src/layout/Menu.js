@@ -10,10 +10,10 @@ import { Link } from "react-router-dom";
 
 function Menu() {
   return (
-    <nav className="navbar navbar-dark align-items-start p-0">
+    <nav className="navbar navbar-dark align-items-start p-0" style={{height: "1100px"}}>
       <div className="container-fluid d-flex flex-column p-0">
         <Link
-          className="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"
+          className="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-2"
           to="/"
         >
           <div className="sidebar-brand-text mx-3">
@@ -24,8 +24,7 @@ function Menu() {
         <ul className="nav navbar-nav text-light" id="accordionSidebar">
           <li className="nav-item">
             <Link className="nav-link" to="/dashboard">
-              <span className="oi oi-dashboard" />
-              &nbsp;Dashboard
+              <span className="oi oi-dashboard" /> Dashboard
             </Link>
           </li>
           <li className="nav-item">
@@ -36,14 +35,12 @@ function Menu() {
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="/reservations/new">
-              <span className="oi oi-plus" />
-              &nbsp;New Reservation
+              <span className="oi oi-plus" /> New Reservation
             </Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="/tables/new">
-              <span className="oi oi-layers" />
-              &nbsp;New Table
+              <span className="oi oi-layers" /> New Table
             </Link>
           </li>
         </ul>

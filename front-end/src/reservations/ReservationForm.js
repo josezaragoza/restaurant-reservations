@@ -18,7 +18,7 @@ function ReservationForm({ formData, setFormData, submitHandler, error }) {
       <form onSubmit={submitHandler}>
         <div className="row mb-3">
           <div className="col-4 form-group">
-            <label className="form-label" htmlFor="first_name">
+            <label className="form-label text-light" htmlFor="first_name">
               First Name
             </label>
             <input
@@ -30,10 +30,10 @@ function ReservationForm({ formData, setFormData, submitHandler, error }) {
               required={true}
               value={formData.first_name}
             />
-            <small className="form-text text-muted"> Enter First Name </small>
+            <small className="form-text text-light"> Enter First Name </small>
           </div>
           <div className="col-4">
-            <label className="form-label" htmlFor="last_name">
+            <label className="form-label text-light" htmlFor="last_name">
               Last Name
             </label>
             <input
@@ -45,12 +45,12 @@ function ReservationForm({ formData, setFormData, submitHandler, error }) {
               required={true}
               value={formData.last_name}
             />
-            <small className="form-text text-muted"> Enter Last Name </small>
+            <small className="form-text text-light"> Enter Last Name </small>
           </div>
         </div>
         <div className="row mb-3">
           <div className="col-4 form-group">
-            <label className="form-label" htmlFor="mobile_number">
+            <label className="form-label text-light" htmlFor="mobile_number">
               Mobile Number
             </label>
             <input
@@ -62,13 +62,10 @@ function ReservationForm({ formData, setFormData, submitHandler, error }) {
               required={true}
               value={formData.mobile_number}
             />
-            <small className="form-text text-muted">
-              {" "}
-              Enter Mobile Number
-            </small>
+            <small className="form-text text-light"> Enter Mobile Number</small>
           </div>
           <div className="col-4 form-group">
-            <label className="form-label" htmlFor="mobile_number">
+            <label className="form-label text-light" htmlFor="mobile_number">
               Party Size
             </label>
             <input
@@ -80,12 +77,12 @@ function ReservationForm({ formData, setFormData, submitHandler, error }) {
               required={true}
               value={formData.people}
             />
-            <small className="form-text text-muted"> Enter Party Size </small>
+            <small className="form-text text-light"> Enter Party Size </small>
           </div>
         </div>
         <div className="row mb-3">
           <div className="col-4 form-group">
-            <label>Reservation Date</label>
+            <label className="text-light">Reservation Date</label>
             <input
               className="form-control"
               id="reservation_date"
@@ -96,13 +93,13 @@ function ReservationForm({ formData, setFormData, submitHandler, error }) {
               value={formData.reservation_date}
               placeholder="DDMMYYY"
             />
-            <small className="form-text text-muted">
+            <small className="form-text text-light">
               {" "}
               Enter Reservation Date
             </small>
           </div>
           <div className="col-4 form-group">
-            <label>Reservation Time</label>
+            <label className="text-light">Reservation Time</label>
             <input
               className="form-control"
               id="reservation_time"
@@ -113,7 +110,7 @@ function ReservationForm({ formData, setFormData, submitHandler, error }) {
               placeholder="reservation time"
               value={formData.reservation_time}
             />
-            <small className="form-text text-muted">
+            <small className="form-text text-light">
               {" "}
               Enter Reservation Time{" "}
             </small>
@@ -125,7 +122,7 @@ function ReservationForm({ formData, setFormData, submitHandler, error }) {
         </button>
         <button
           type="button"
-          className="btn btn-dark"
+          className="btn btn-danger"
           onClick={cancelClickHandler}
         >
           {" "}
