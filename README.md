@@ -21,19 +21,19 @@ Restaurant Reservations is a reservation management tool built with PERN stack. 
 
 - View of the Dashboard with a booked reservation.
 
-![Dashboard](/images/dashboard.png)
+![dashboard](/images/dashboard.png)
 
 - View of the search page with a reservation found by using a phone number.
 
-![Search](/images/search.png)
+![search](/images/search.png)
 
 - View of the new reservation page with a filled out sample. ( Reservation availability hours: 10:30am - 9:30pm / Closed on Tuesdays )
 
-![NewReservation](/images/newReservation.png)
+![newReservation](/images/newReservation.png)
 
 - View of the table page which allows user to create a new table. ( Table name must be 2 or more characters )
 
-![Table](/images/newTable.png)
+![newTable](/images/newTable.png)
 
 
 ## API
