@@ -15,10 +15,10 @@ function Layout() {
   return (
     <div className="container-fluid">
       <div className="row h-100">
-        <div className="col-md-2 side-bar" style={{ height: "auto" }}>
+        <div className="col-lg-2 side-bar">
           <Menu />
         </div>
-        <div className="col" style={{ height: "100%" }}>
+        <div className="col">
           <Routes />
         </div>
       </div>
