@@ -1,4 +1,19 @@
+html,body{
+  height: 100%;
+  background-image: url('../images/seating.jpg');
+  background-position: center;
+  background-size: 100%;
+}
+
 .side-bar {
   background-color: #393a44;
   min-width: 200px;
+  height: 100%;
+}
+
+@media all and (min-width: 992px) {
+
+  .side-bar {
+    min-height: 100vh;
+  }
 }
