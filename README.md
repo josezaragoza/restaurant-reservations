@@ -10,6 +10,7 @@ Restaurant Reservations is a reservation management tool built with PERN stack. 
 
 ## Technology Used
 
+- JavaScript
 - PostgreSQL
 - Express
 - React
